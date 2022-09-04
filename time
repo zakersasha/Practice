@@ -1,0 +1,636 @@
+predict_poisson_xgb: 0.015372593887150288
+predict_gamma: 69683
+MeanLoss_h2o: 25
+MeanLoss_xgb: 50
+----- finish predict 2022-06-02 16-09-29.879055 -----
+PredictSegment: Целевой-2
+----- finish 2022-06-02 16-09-29.879055 -----
+Timer unit: 3.94771e-07 s
+
+Total time: 1.78354 s
+File: D:\OsagoProject\Service_OSAGO_Scoring2\app_gelios\business_logic.py
+Function: get_request_json at line 74
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    74                                           @profile
+    75                                           def get_request_json():
+    76         1         30.0     30.0      0.0      json_input = {
+    77         1         13.0     13.0      0.0          'ID': 1201823,
+    78         1          9.0      9.0      0.0          'PolicyId': 'ede2bde0-4adc-453f-86d4-94ab94e0c94c',
+    79         1          9.0      9.0      0.0          'DateStart': '2022-05-30',
+    80         1          9.0      9.0      0.0          'InsurerClientType': 1,
+    81         1          9.0      9.0      0.0          'InsurerGender': 'Male',
+    82         1          9.0      9.0      0.0          'DriverMinAge': 34,
+    83         1          8.0      8.0      0.0          'DriverMinExperience': 10,
+    84         1          8.0      8.0      0.0          'CoefKBM': '0.55',
+    85         1          7.0      7.0      0.0          'TSCategory': '2',
+    86         1          8.0      8.0      0.0          'IssueYear': '2013',
+    87         1          7.0      7.0      0.0          'EnginePower': '140',
+    88         1          8.0      8.0      0.0          'SeatsNumberTo16': '1',
+    89         1          8.0      8.0      0.0          'MaxWeightTo16': '1',
+    90         1          8.0      8.0      0.0          'Premium': 2130.82,
+    91         1          8.0      8.0      0.0          'SellerIKP': '04076',
+    92         1          8.0      8.0      0.0          'FilialCode': '00498',
+    93         1          8.0      8.0      0.0          'IsProlongation': '1',
+    94         1          8.0      8.0      0.0          'DriverUnlimit': '0',
+    95         1          8.0      8.0      0.0          'OwnerKLADRCode': '2200800000100',
+    96         1          7.0      7.0      0.0          'IsGoodName': 'Good',
+    97         1          8.0      8.0      0.0          'OwnerKLADRCode_2': '22',
+    98         1          8.0      8.0      0.0          'json': None,
+    99         1          7.0      7.0      0.0          'InsurerTitle': 'AAA'}
+   100
+   101         1          9.0      9.0      0.0      json_ = json_input
+   102
+   103         1        102.0    102.0      0.0      now_date = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S.%f")
+   104         1         10.0     10.0      0.0      json_.update({'now_date': now_date})
+   105
+   106         1        725.0    725.0      0.0      print(f"********************* START {str(now_date)} *********************")
+   107
+   108         1         11.0     11.0      0.0      try:
+   109
+   110                                                   # ***** Читаем JSON *****
+   111
+   112                                                   # Client
+   113         1          9.0      9.0      0.0          InsurerOwner = 1
+   114         4         35.0      8.8      0.0          InsurerClientType = json_input["InsurerClientType"] if "InsurerClientType" in json_input and json_input[
+   115         2         16.0      8.0      0.0              "InsurerClientType"] is not None else 1
+   116         1          9.0      9.0      0.0          InsurerTitle = json_input["InsurerTitle"]
+   117         1          9.0      9.0      0.0          InsurerGender = json_input["InsurerGender"] if "InsurerGender" in json_input else None
+   118         1          8.0      8.0      0.0          DriversList = json_input["DriversList"] if 'DriversList' in json_input else None
+   119         2         21.0     10.5      0.0          DriverGender = DriversList[0]["DriverGender"] if isinstance(DriversList, list) and len(
+   120         1          8.0      8.0      0.0              DriversList) > 0 and "DriverGender" in DriversList[0] else None
+   121         1          8.0      8.0      0.0          DriverMinAge = json_input["DriverMinAge"]
+   122         1          8.0      8.0      0.0          DriverMinExperience = json_input["DriverMinExperience"]
+   123         1          9.0      9.0      0.0          CoefKBM = json_input["CoefKBM"]
+   124
+   125                                                   # Vehicle
+   126         1          9.0      9.0      0.0          TSCategory = json_input["TSCategory"] if "TSCategory" in json_input else 2
+   127         1          9.0      9.0      0.0          IssueYear = json_input["IssueYear"] if "IssueYear" in json_input else None
+   128         1          9.0      9.0      0.0          EnginePower = json_input["EnginePower"] if "EnginePower" in json_input else None
+   129         1          9.0      9.0      0.0          SeatsNumberTo16 = json_input["SeatsNumberTo16"] if "SeatsNumberTo16" in json_input else '0'
+   130         1          9.0      9.0      0.0          MaxWeightTo16 = json_input["MaxWeightTo16"] if "MaxWeightTo16" in json_input else '0'
+   131         1          9.0      9.0      0.0          TSBrandId = json_input["TSBrandId"] if "TSBrandId" in json_input and json_input["TSBrandId"] is not None else 0
+   132         1          8.0      8.0      0.0          TSModelId = json_input["TSModelId"] if "TSModelId" in json_input and json_input["TSModelId"] is not None else 0
+   133
+   134                                                   # Policy
+   135         1          9.0      9.0      0.0          Premium = json_input['Premium']
+   136         1          8.0      8.0      0.0          SellerIKP = json_input["SellerIKP"] if "SellerIKP" in json_input else None
+   137         1          8.0      8.0      0.0          FilialCode = json_input["FilialCode"] if "FilialCode" in json_input else None
+   138         1          8.0      8.0      0.0          IsTaxi = json_input["IsTaxi"] if "IsTaxi" in json_input and json_input["IsTaxi"] is not None else 0
+   139         4         34.0      8.5      0.0          IsProlongation = json_input["IsProlongation"] if "IsProlongation" in json_input and json_input[
+   140         2         16.0      8.0      0.0              "IsProlongation"] is not None else 0
+   141         4         33.0      8.2      0.0          DriverUnlimit = json_input["DriverUnlimit"] if "DriverUnlimit" in json_input and json_input[
+   142         2         16.0      8.0      0.0              "DriverUnlimit"] is not None else 0
+   143         1          9.0      9.0      0.0          OwnerKLADRCode = json_input["OwnerKLADRCode"] if "OwnerKLADRCode" in json_input else None
+   144         1          9.0      9.0      0.0          OwnerRegionName = json_input["OwnerRegionName"] if "OwnerRegionName" in json_input else None
+   145
+   146                                                   # ***** Обогащаем данными от Автокода *****
+   147
+   148         1          9.0      9.0      0.0          AvtoKod_year = None
+   149         1          8.0      8.0      0.0          AvtoKod_EnginePower = None
+   150         1          8.0      8.0      0.0          AvtoKod_Taxi = None
+   151
+   152         1          8.0      8.0      0.0          if "AvtoKodJSON" in json_input and json_input["AvtoKodJSON"] is not None:
+   153                                                       AvtoKodJSON = json_input["AvtoKodJSON"]
+   154                                                       if isinstance(AvtoKodJSON, dict):
+   155                                                           if "tech_data" in AvtoKodJSON:
+   156
+   157                                                               if "year" in AvtoKodJSON["tech_data"]:
+   158                                                                   try:
+   159                                                                       AvtoKod_year = int(AvtoKodJSON["tech_data"]["year"])
+   160                                                                       json_.update({"Autocod_year": AvtoKod_year})
+   161                                                                   except Exception:
+   162                                                                       AvtoKod_year = None
+   163
+   164                                                               if "engine" in AvtoKodJSON["tech_data"]:
+   165                                                                   if "power" in AvtoKodJSON["tech_data"]["engine"]:
+   166                                                                       if "hp" in AvtoKodJSON["tech_data"]["engine"]["power"]:
+   167                                                                           try:
+   168                                                                               AvtoKod_EnginePower = float(AvtoKodJSON["tech_data"]["engine"]["power"]["hp"])
+   169                                                                               json_.update({"Autocod_EnginePower": AvtoKod_EnginePower})
+   170                                                                           except Exception:
+   171                                                                               AvtoKod_EnginePower = None
+   172
+   173                                                           if "taxi" in AvtoKodJSON:
+   174
+   175                                                               if "used_in_taxi" in AvtoKodJSON["taxi"]:
+   176                                                                   AvtoKod_Taxi = AvtoKodJSON["taxi"]["used_in_taxi"]
+   177                                                                   json_.update({"Autocod_Taxi": AvtoKod_Taxi})
+   178
+   179         1          8.0      8.0      0.0          if AvtoKod_year is not None:
+   180                                                       if IssueYear is None:
+   181                                                           IssueYear = AvtoKod_year
+   182                                                       else:
+   183                                                           IssueYear = min(IssueYear, AvtoKod_year)
+   184
+   185         1          9.0      9.0      0.0          if AvtoKod_EnginePower is not None:
+   186                                                       if EnginePower is None:
+   187                                                           EnginePower = AvtoKod_EnginePower
+   188                                                       else:
+   189                                                           EnginePower = max(EnginePower, AvtoKod_EnginePower)
+   190
+   191         1          9.0      9.0      0.0          if AvtoKod_Taxi is not None:
+   192                                                       IsTaxi = 1 if IsTaxi in (1, '1', True) or AvtoKod_Taxi in (1, '1', True) else 0
+   193
+   194                                                   # ***** Выполняем преобразования *****
+   195
+   196                                                   # Client
+   197
+   198         1          9.0      9.0      0.0          InsurerGender = DriverGender if DriverGender is not None else InsurerGender
+   199
+   200         1         67.0     67.0      0.0          GenderM, GenderW = f_gender(InsurerClientType, InsurerGender, InsurerTitle)
+   201         1         11.0     11.0      0.0          json_.update({'frame_GenderM': GenderM})
+   202         1          9.0      9.0      0.0          json_.update({'frame_GenderW': GenderW})
+   203
+   204         1        182.0    182.0      0.0          IsGoodName = f_IsGoodName(InsurerTitle, df_names["Name"])
+   205         1         11.0     11.0      0.0          json_.update({'frame_IsGoodName': IsGoodName})
+   206
+   207         1         19.0     19.0      0.0          DriverMinAge = f_DriverMinAge(DriverMinAge)
+   208         1          9.0      9.0      0.0          json_.update({'frame_DriverMinAge': DriverMinAge})
+   209
+   210         1         13.0     13.0      0.0          DriverMinAge_M = f_age_gender(DriverMinAge, GenderM)
+   211         1          9.0      9.0      0.0          json_.update({'frame_DriverMinAge_M': DriverMinAge_M})
+   212
+   213         1         10.0     10.0      0.0          DriverMinAge_M_2 = DriverMinAge_M ** 2
+   214         1          9.0      9.0      0.0          json_.update({'frame_DriverMinAge_M_2': DriverMinAge_M_2})
+   215
+   216         1         11.0     11.0      0.0          DriverMinAge_W = f_age_gender(DriverMinAge, GenderW)
+   217         1          8.0      8.0      0.0          json_.update({'frame_DriverMinAge_W': DriverMinAge_W})
+   218
+   219         1          9.0      9.0      0.0          DriverMinAge_W_2 = DriverMinAge_W ** 2
+   220         1          9.0      9.0      0.0          json_.update({'frame_DriverMinAge_W_2': DriverMinAge_W_2})
+   221
+   222         1         18.0     18.0      0.0          DriverMinExperience = f_DriverMinExp(DriverMinExperience)
+   223         1         10.0     10.0      0.0          json_.update({'frame_DriverMinExperience': DriverMinExperience})
+   224
+   225         1          9.0      9.0      0.0          DriverMinExperience_2 = DriverMinExperience ** 2
+   226         1          9.0      9.0      0.0          json_.update({'frame_DriverMinExperience_2': DriverMinExperience_2})
+   227
+   228         1          9.0      9.0      0.0          DriverLicenseAge = DriverMinAge - DriverMinExperience
+   229         1          9.0      9.0      0.0          DriverLicenseAge = 18 if DriverLicenseAge < 18 else DriverLicenseAge
+   230         1          9.0      9.0      0.0          json_.update({'frame_DriverLicenseAge': DriverLicenseAge})
+   231
+   232         1        126.0    126.0      0.0          kvc = f_kvc(DriverMinAge, DriverMinExperience)
+   233         1         14.0     14.0      0.0          json_.update({'frame_CoefKVC': kvc})
+   234
+   235         1         40.0     40.0      0.0          CoefKBM = f_kbm(CoefKBM)
+   236         1         10.0     10.0      0.0          json_.update({'frame_CoefKBM': CoefKBM})
+   237
+   238         1         13.0     13.0      0.0          kbm_exp10plus, kbm_exp10minus = f_kbm_exp10(CoefKBM, DriverMinExperience)
+   239         1         10.0     10.0      0.0          json_.update({'frame_kbm_exp10plus': kbm_exp10plus})
+   240         1         10.0     10.0      0.0          json_.update({'frame_kbm_exp10minus': kbm_exp10minus})
+   241
+   242         1          9.0      9.0      0.0          kbm_exp10plus_2 = kbm_exp10plus ** 2
+   243         1          9.0      9.0      0.0          json_.update({'frame_kbm_exp10plus_2': kbm_exp10plus_2})
+   244
+   245         1          9.0      9.0      0.0          kbm_exp10minus_2 = kbm_exp10minus ** 2
+   246         1          9.0      9.0      0.0          json_.update({'frame_kbm_exp10minus_2': kbm_exp10minus_2})
+   247
+   248         1          9.0      9.0      0.0          kvc_kbm = (CoefKBM + kvc) // 2
+   249         1          9.0      9.0      0.0          json_.update({'frame_kvc_kbm': kvc_kbm})
+   250
+   251                                                   # Vehicle
+   252
+   253         1         16.0     16.0      0.0          veh_moto, veh_car, veh_truck = f_TSCategory(TSCategory)
+   254         1         15.0     15.0      0.0          json_.update({'frame_veh_moto': veh_moto})
+   255         1          9.0      9.0      0.0          json_.update({'frame_veh_car': veh_car})
+   256         1          9.0      9.0      0.0          json_.update({'frame_veh_truck': veh_truck})
+   257
+   258         1         20.0     20.0      0.0          VehicleAge = f_Vehicle_Age(IssueYear)
+   259         1          9.0      9.0      0.0          json_.update({'frame_VehicleAge': VehicleAge})
+   260
+   261         1         10.0     10.0      0.0          VehicleAge_2 = VehicleAge ** 2
+   262         1          9.0      9.0      0.0          json_.update({'frame_VehicleAge_2': VehicleAge_2})
+   263
+   264         1         35.0     35.0      0.0          EnginePower = f_Power(EnginePower)
+   265         1          9.0      9.0      0.0          json_.update({'frame_EnginePower': EnginePower})
+   266
+   267         1         15.0     15.0      0.0          SeatsNumberTo16 = f_seats(SeatsNumberTo16)
+   268         1          9.0      9.0      0.0          json_.update({'frame_SeatsNumberTo16': SeatsNumberTo16})
+   269
+   270         1         11.0     11.0      0.0          MaxWeightTo16 = f_weight(MaxWeightTo16)
+   271         1          9.0      9.0      0.0          json_.update({'frame_MaxWeightTo16': MaxWeightTo16})
+   272
+   273                                                   # Policy
+   274
+   275         1         19.0     19.0      0.0          IsProlongation = f_prolongation(IsProlongation)
+   276
+   277         1         17.0     17.0      0.0          DriverUnlimit = f_driver_unlimit(DriverUnlimit)
+   278
+   279         1         31.0     31.0      0.0          OwnerKLADRCode_2 = f_get_region_num(OwnerKLADRCode, f_regions_useless())
+   280         1         10.0     10.0      0.0          json_.update({'frame_OwnerKLADRCode_2': OwnerKLADRCode_2})
+   281
+   282         1         59.0     59.0      0.0          OwnerKLADR_Num = f_Region_Kladr(OwnerKLADRCode_2)
+   283         1         10.0     10.0      0.0          json_.update({'frame_OwnerKLADR_Num': OwnerKLADR_Num})
+   284
+   285                                                   # Geo
+   286
+   287         1       6416.0   6416.0      0.1          df_geo = df_kladr[df_kladr.OwnerKLADRCode == OwnerKLADRCode]
+   288         1        980.0    980.0      0.0          df_geo = df_geo.iloc[0] if len(df_geo) > 0 else None
+   289
+   290         1        201.0    201.0      0.0          freq_geo = df_geo['freq_geo'] if df_geo is not None and not np.isnan(df_geo['freq_geo']) else Constants.freq_geo
+   291         1         11.0     11.0      0.0          json_.update({'frame_freq_geo': freq_geo})
+   292
+   293         3         62.0     20.7      0.0          freq_0_100_geo = df_geo['freq_0_100_geo'] if df_geo is not None and not np.isnan(
+   294         1         41.0     41.0      0.0              df_geo['freq_0_100_geo']) else Constants.freq_geo_0_100
+   295         1         10.0     10.0      0.0          json_.update({'frame_freq_0_100_geo': freq_0_100_geo})
+   296
+   297         3         61.0     20.3      0.0          freq_100_geo = df_geo['freq_100_geo'] if df_geo is not None and not np.isnan(
+   298         1         39.0     39.0      0.0              df_geo['freq_100_geo']) else Constants.freq_geo_100
+   299         1          9.0      9.0      0.0          json_.update({'frame_freq_100_geo': freq_100_geo})
+   300
+   301         3         76.0     25.3      0.0          population_50 = df_geo['population_50'] + 1 if df_geo is not None and not np.isnan(
+   302         1         39.0     39.0      0.0              df_geo['population_50']) else Constants.geo_population_50
+   303         1         10.0     10.0      0.0          json_.update({'frame_population_50': population_50})
+   304
+   305         1         22.0     22.0      0.0          population_1000, population_500, population_250, population_60 = f_population(population_50)
+   306         1         10.0     10.0      0.0          json_.update({'frame_population_1000': population_1000})
+   307         1          9.0      9.0      0.0          json_.update({'frame_population_500': population_500})
+   308         1          8.0      8.0      0.0          json_.update({'frame_population_250': population_250})
+   309         1          9.0      9.0      0.0          json_.update({'frame_population_60': population_60})
+   310
+   311         3         64.0     21.3      0.0          city_population_max_50 = df_geo['city_population_max_50'] + 1 if df_geo is not None and not np.isnan(
+   312         1         41.0     41.0      0.0              df_geo['city_population_max_50']) else Constants.geo_city_population_max_50
+   313         1          9.0      9.0      0.0          json_.update({'frame_city_population_max_50': city_population_max_50})
+   314
+   315         3         62.0     20.7      0.0          city_dist_max_50 = df_geo['city_dist_max_50'] + 1 if df_geo is not None and not np.isnan(
+   316         1         39.0     39.0      0.0              df_geo['city_dist_max_50']) else Constants.geo_city_dist_max_50
+   317         1         10.0     10.0      0.0          json_.update({'frame_city_dist_max_50': city_dist_max_50})
+   318
+   319         3         60.0     20.0      0.0          center_population = df_geo['center_population'] if df_geo is not None and not np.isnan(
+   320         1         40.0     40.0      0.0              df_geo['center_population']) else Constants.geo_center_population
+   321         1         10.0     10.0      0.0          json_.update({'frame_center_population': center_population})
+   322
+   323         3         62.0     20.7      0.0          center_dist = df_geo['center_dist'] + 1 if df_geo is not None and not np.isnan(
+   324         1         39.0     39.0      0.0              df_geo['center_dist']) else Constants.geo_center_dist
+   325         1         12.0     12.0      0.0          center_dist = center_dist if center_dist < Constants.geo_center_dist_max else Constants.geo_center_dist_max
+   326         1          9.0      9.0      0.0          json_.update({'frame_center_dist': center_dist})
+   327
+   328         3         89.0     29.7      0.0          region_density = df_geo['region_density'] if df_geo is not None and not np.isnan(
+   329         1         53.0     53.0      0.0              df_geo['region_density']) else Constants.geo_region_density
+   330         1         12.0     12.0      0.0          region_density = region_density if region_density < Constants.geo_region_density_max else Constants.geo_region_density_max
+   331         1         10.0     10.0      0.0          json_.update({'frame_region_density': region_density})
+   332
+   333         1         16.0     16.0      0.0          population_50_log = math.log(population_50)
+   334         1         10.0     10.0      0.0          json_.update({'frame_population_50_log': population_50_log})
+   335
+   336         1         10.0     10.0      0.0          city_population_max_50_log = math.log(city_population_max_50)
+   337         1          9.0      9.0      0.0          json_.update({'frame_city_population_max_50_log': city_population_max_50_log})
+   338
+   339         1          9.0      9.0      0.0          city_dist_max_50_log = math.log(city_dist_max_50)
+   340         1          9.0      9.0      0.0          json_.update({'frame_city_dist_max_50_log': city_dist_max_50_log})
+   341
+   342         1          9.0      9.0      0.0          center_population_log = math.log(center_population)
+   343         1          9.0      9.0      0.0          json_.update({'frame_center_population_log': center_population_log})
+   344
+   345         1          9.0      9.0      0.0          center_dist_log = math.log(center_dist)
+   346         1          9.0      9.0      0.0          json_.update({'frame_center_dist_log': center_dist_log})
+   347
+   348         1          9.0      9.0      0.0          region_density_log = math.log(region_density)
+   349         1          9.0      9.0      0.0          json_.update({'frame_region_density_log': region_density_log})
+   350
+   351                                                   # ***** Отрабатывем случаи когда расчет не нужен *****
+   352
+   353         1          8.0      8.0      0.0          ban = False
+   354         1          9.0      9.0      0.0          comment = None
+   355         1          9.0      9.0      0.0          LossRange = None
+   356         1          8.0      8.0      0.0          MaxLossRange = None
+   357
+   358                                                   # Проверка отсутствия премии
+   359         1          9.0      9.0      0.0          ban_premium = False
+   360
+   361         1          9.0      9.0      0.0          try:
+   362         1         10.0     10.0      0.0              Premium = float(Premium)
+   363         1        476.0    476.0      0.0              print(f"Premium: {Premium}")
+   364         1         14.0     14.0      0.0              if Premium <= Constants.premium_min:
+   365                                                           ban_premium = True
+   366                                                   except:
+   367                                                       ban_premium = True
+   368
+   369         1          9.0      9.0      0.0          if ban_premium:
+   370                                                       ban = True
+   371                                                       print('ban_premium')
+   372                                                       comment = 'Отсутствует премия'
+   373
+   374                                                   # Проверка на юрлицо
+   375         1          9.0      9.0      0.0          if InsurerClientType not in (1, '1'):
+   376                                                       ban = True
+   377                                                       print(f"InsurerClientType: {InsurerClientType}")
+   378                                                       comment = 'Юрлицо'
+   379
+   380                                                   # Проверка на тип ТС (не легковое или мотоцикл)
+   381         1         10.0     10.0      0.0          if TSCategory not in (2, 3, '2', '3'):
+   382                                                       ban = True
+   383                                                       print(f"TSCategory: {TSCategory}")
+   384                                                       comment = 'Тип ТС'
+   385
+   386                                                   # Проверка на такси
+   387         1          9.0      9.0      0.0          if IsTaxi == 1:
+   388                                                       ban = True
+   389                                                       print('Taxi')
+   390                                                       comment = 'Такси'
+   391
+   392                                                   # Проверка на мультидрайв
+   393         1          9.0      9.0      0.0          if DriverUnlimit in (1, '1'):
+   394                                                       ban = True
+   395                                                       print('DriverUnlimit')
+   396                                                       comment = 'Мультидрайв'
+   397
+   398                                                   # Проверка на заблокированные территории
+   399         1          9.0      9.0      0.0          ban_district = False
+   400
+   !401       346     100549.0    290.6      2.2          for _, value in df_ban_district.iterrows():
+   402
+   403       345      34259.0     99.3      0.8              str_kladr = re.sub(r"|\n|\r|", '', value.Kladr_code)
+   404       345      26847.0     77.8      0.6              ban_coef_KBM = 2.0 if pd.isnull(value.coef_KBM) else value.coef_KBM
+   405       345      24053.0     69.7      0.5              ban_kbm = False if pd.isnull(value.coef_KBM) else True
+   406       345       3568.0     10.3      0.1              lenKladr = len(str_kladr)
+   407
+   408       345      22493.0     65.2      0.5              if value.District_full == '1':
+   409       278       3898.0     14.0      0.1                  if OwnerKLADRCode.find(str_kladr, 0, lenKladr) != -1:
+   410                                                               if ban_kbm:
+   411                                                                   if CoefKBM >= ban_coef_KBM:
+   412                                                                       ban_district = True
+   413                                                                       break
+   414                                                               else:
+   415                                                                   ban_district = True
+   416                                                                   break
+   417
+   418        67        660.0      9.9      0.0              elif str_kladr == OwnerKLADRCode:
+   419                                                           if ban_kbm:
+   420                                                               if CoefKBM >= ban_coef_KBM:
+   421                                                                   ban_district = True
+   422                                                                   break
+   423                                                           else:
+   424                                                               ban_district = True
+   425                                                               break
+   426
+   427         1          9.0      9.0      0.0          if ban_district:
+   428                                                       ban = True
+   429                                                       print('ban_district')
+   430                                                       comment = 'Территория заблокирована'
+   431
+   432                                                   # Проверка на заблокированные регионы
+   433         1          9.0      9.0      0.0          ban_region = True
+   434
+   435         1          9.0      9.0      0.0          if OwnerKLADRCode_2 is not None:
+   436
+   437         1       2359.0   2359.0      0.1              df_ban_regions_reg = df_ban_regions[df_ban_regions.region_code == OwnerKLADRCode_2]
+   438
+   439         1         18.0     18.0      0.0              if len(df_ban_regions_reg) > 0:
+   440         1        243.0    243.0      0.0                  LossRange = int(df_ban_regions_reg['LR_risk'].values[0])
+   441         1        165.0    165.0      0.0                  MaxLossRange = int(df_ban_regions_reg['LR_ban'].values[0])
+   442         1          9.0      9.0      0.0                  ban_region = False
+   443
+   444         1          9.0      9.0      0.0          if ban_region:
+   445                                                       ban = True
+   446                                                       print('ban_agent')
+   447                                                       comment = 'Территория заблокирована'
+   448
+   449                                                   # Проверка на заблокированных агентов
+   450         1         10.0     10.0      0.0          ban_agent = False
+   451
+   452         1          9.0      9.0      0.0          if SellerIKP is not None:
+   453
+   454         1       1884.0   1884.0      0.0              df_ban_agents_ikp = df_ban_agents[df_ban_agents.ikp == SellerIKP]
+   455
+   456         1         16.0     16.0      0.0              if len(df_ban_agents_ikp) > 0:
+   457                                                           LossRange = int(df_ban_agents_ikp['LR_Risk'].values[0])
+   458                                                           MaxLossRange = int(df_ban_agents_ikp['LR_Ban'].values[0])
+   459
+   460                                                           if df_ban_agents_ikp['insurer_type_ban'].values[0] == InsurerClientType:
+   461                                                               ban_agent = True
+   462
+   463         1          9.0      9.0      0.0          if ban_agent:
+   464                                                       ban = True
+   465                                                       print('ban_agent')
+   466                                                       comment = 'Агенту заблокированы продажи через Скоринг'
+   467
+   468                                                   # Проверка на заблокированные марки-модели
+   469         1         10.0     10.0      0.0          ban_ts = False
+   470
+   471         1       1521.0   1521.0      0.0          df_ban_ts_ts = df_ban_ts[df_ban_ts.Marka_id == TSBrandId]
+   472
+   473         1         17.0     17.0      0.0          if len(df_ban_ts_ts) > 0:
+   474
+   475                                                       for i in range(0, len(df_ban_ts_ts)):
+   476
+   477                                                           Full_Ban_ModelTS = df_ban_ts_ts['Full_Ban_ModelTS'].values[i]
+   478                                                           RegionCode = df_ban_ts_ts['RegionCode'].values[i]
+   479                                                           Model_id = df_ban_ts_ts['Model_id'].values[i]
+   480
+   481                                                           if RegionCode == OwnerKLADRCode_2:
+   482                                                               if not pd.isnull(Full_Ban_ModelTS) and Full_Ban_ModelTS == '1':
+   483                                                                   ban_ts = True
+   484                                                               elif Model_id == TSModelId:
+   485                                                                   ban_ts = True
+   486
+   487                                                           elif pd.isnull(RegionCode):
+   488                                                               if not pd.isnull(Full_Ban_ModelTS) and Full_Ban_ModelTS == '1':
+   489                                                                   ban_ts = True
+   490                                                               elif Model_id == TSModelId:
+   491                                                                   ban_ts = True
+   492
+   493         1         10.0     10.0      0.0          if ban_ts:
+   494                                                       ban = True
+   495                                                       print('ban_ts')
+   496                                                       comment = 'Заблокированная марка-модель ТС'
+   497
+   498                                                   # ***** Считаем прогнозные значения *****
+   499
+   500         1          9.0      9.0      0.0          if not ban:
+   501
+   502         1          9.0      9.0      0.0              try:
+   503
+   504         1         89.0     89.0      0.0                  now_date_start_predict = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S.%f")
+   505         1         13.0     13.0      0.0                  json_.update({'now_date_start_predict': now_date_start_predict})
+   506
+   507         1        877.0    877.0      0.0                  print(f"----- start predict {str(now_date_start_predict)} -----")
+   508
+   !509         1    1247681.0 1247681.0     27.6                  hf = return_NewH2o_Frame()
+   510
+   511                                                           # Client
+   512         1        373.0    373.0      0.0                  hf[0, 'InsurerOwner'] = InsurerOwner
+   513         1        224.0    224.0      0.0                  hf[0, 'GenderM'] = GenderM
+   514         1        213.0    213.0      0.0                  hf[0, 'GenderW'] = GenderW
+   515         1        213.0    213.0      0.0                  hf[0, 'IsGoodName'] = IsGoodName
+   516         1        211.0    211.0      0.0                  hf[0, 'DriverMinAge_M'] = DriverMinAge_M
+   517         1        298.0    298.0      0.0                  hf[0, 'DriverMinAge_M_2'] = DriverMinAge_M_2
+   518         1        211.0    211.0      0.0                  hf[0, 'DriverMinAge_W'] = DriverMinAge_W
+   519         1        242.0    242.0      0.0                  hf[0, 'DriverMinAge_W_2'] = DriverMinAge_W_2
+   520         1        281.0    281.0      0.0                  hf[0, 'DriverMinExperience'] = DriverMinExperience
+   521         1        210.0    210.0      0.0                  hf[0, 'DriverMinExperience_2'] = DriverMinExperience_2
+   522         1        209.0    209.0      0.0                  hf[0, 'DriverLicenseAge'] = DriverLicenseAge
+   523         1        208.0    208.0      0.0                  hf[0, 'kbm_exp10plus'] = kbm_exp10plus
+   524         1        208.0    208.0      0.0                  hf[0, 'kbm_exp10minus'] = kbm_exp10minus
+   525         1        207.0    207.0      0.0                  hf[0, 'kbm_exp10plus_2'] = kbm_exp10plus_2
+   526         1        209.0    209.0      0.0                  hf[0, 'kbm_exp10minus_2'] = kbm_exp10minus_2
+   527         1        209.0    209.0      0.0                  hf[0, 'kvc_kbm'] = kvc_kbm
+   528                                                           # Vehicle
+   529         1        206.0    206.0      0.0                  hf[0, 'veh_moto'] = veh_moto
+   530         1        207.0    207.0      0.0                  hf[0, 'veh_car'] = veh_car
+   531         1        224.0    224.0      0.0                  hf[0, 'veh_truck'] = veh_truck
+   532         1        206.0    206.0      0.0                  hf[0, 'VehicleAge'] = VehicleAge
+   533         1        207.0    207.0      0.0                  hf[0, 'VehicleAge_2'] = VehicleAge_2
+   534         1        208.0    208.0      0.0                  hf[0, 'EnginePower'] = EnginePower
+   535         1        208.0    208.0      0.0                  hf[0, 'SeatsNumberTo16'] = SeatsNumberTo16
+   536         1        207.0    207.0      0.0                  hf[0, 'MaxWeightTo16'] = MaxWeightTo16
+   537                                                           # Policy
+   538         1        206.0    206.0      0.0                  hf[0, 'IsProlongation'] = IsProlongation
+   539         1        207.0    207.0      0.0                  hf[0, 'DriverUnlimit'] = DriverUnlimit
+   540         1        207.0    207.0      0.0                  hf[0, 'OwnerKLADR_Num'] = OwnerKLADR_Num
+   541         1        214.0    214.0      0.0                  hf[0, 'freq_geo'] = freq_geo
+   542         1        208.0    208.0      0.0                  hf[0, 'freq_0_100_geo'] = freq_0_100_geo
+   543         1        222.0    222.0      0.0                  hf[0, 'freq_100_geo'] = freq_100_geo
+   544         1        210.0    210.0      0.0                  hf[0, 'population_1000'] = population_1000
+   545         1        209.0    209.0      0.0                  hf[0, 'population_500'] = population_500
+   546         1        209.0    209.0      0.0                  hf[0, 'population_250'] = population_250
+   547         1        209.0    209.0      0.0                  hf[0, 'population_60'] = population_60
+   548         1        210.0    210.0      0.0                  hf[0, 'population_50_log'] = population_50_log
+   549         1        209.0    209.0      0.0                  hf[0, 'city_population_max_50'] = city_population_max_50
+   550         1        209.0    209.0      0.0                  hf[0, 'city_population_max_50_log'] = city_population_max_50_log
+   551         1        219.0    219.0      0.0                  hf[0, 'city_dist_max_50'] = city_dist_max_50
+   552         1        255.0    255.0      0.0                  hf[0, 'city_dist_max_50_log'] = city_dist_max_50_log
+   553         1        218.0    218.0      0.0                  hf[0, 'center_population'] = center_population
+   554         1        223.0    223.0      0.0                  hf[0, 'center_population_log'] = center_population_log
+   555         1        222.0    222.0      0.0                  hf[0, 'center_dist'] = center_dist
+   556         1        218.0    218.0      0.0                  hf[0, 'center_dist_log'] = center_dist_log
+   557         1        216.0    216.0      0.0                  hf[0, 'region_density'] = region_density
+   558         1        215.0    215.0      0.0                  hf[0, 'region_density_log'] = region_density_log
+   559
+   560         2       8527.0   4263.5      0.2                  df = pd.DataFrame.from_records([{
+   561                                                               # Client
+   562         1         10.0     10.0      0.0                      'InsurerOwner': InsurerOwner,
+   563         1          9.0      9.0      0.0                      'GenderM': GenderM,
+   564         1          9.0      9.0      0.0                      'GenderW': GenderW,
+   565         1          9.0      9.0      0.0                      'IsGoodName': IsGoodName,
+   566         1          9.0      9.0      0.0                      'DriverMinAge_M': DriverMinAge_M,
+   567         1          9.0      9.0      0.0                      'DriverMinAge_M_2': DriverMinAge_M_2,
+   568         1          9.0      9.0      0.0                      'DriverMinAge_W': DriverMinAge_W,
+   569         1          9.0      9.0      0.0                      'DriverMinAge_W_2': DriverMinAge_W_2,
+   570         1          9.0      9.0      0.0                      'DriverMinExperience': DriverMinExperience,
+   571         1          9.0      9.0      0.0                      'DriverMinExperience_2': DriverMinExperience_2,
+   572         1          9.0      9.0      0.0                      'DriverLicenseAge': DriverLicenseAge,
+   573         1          9.0      9.0      0.0                      'kbm_exp10plus': kbm_exp10plus,
+   574         1          9.0      9.0      0.0                      'kbm_exp10minus': kbm_exp10minus,
+   575         1          9.0      9.0      0.0                      'kbm_exp10plus_2': kbm_exp10plus_2,
+   576         1          9.0      9.0      0.0                      'kbm_exp10minus_2': kbm_exp10minus_2,
+   577         1          9.0      9.0      0.0                      'kvc_kbm': kvc_kbm,
+   578                                                               # Vehicle
+   579         1          9.0      9.0      0.0                      'veh_moto': veh_moto,
+   580         1          9.0      9.0      0.0                      'veh_car': veh_car,
+   581         1          9.0      9.0      0.0                      'veh_truck': veh_truck,
+   582         1          9.0      9.0      0.0                      'VehicleAge': VehicleAge,
+   583         1          9.0      9.0      0.0                      'VehicleAge_2': VehicleAge_2,
+   584         1          9.0      9.0      0.0                      'EnginePower': EnginePower,
+   585         1          9.0      9.0      0.0                      'SeatsNumberTo16': SeatsNumberTo16,
+   586         1          9.0      9.0      0.0                      'MaxWeightTo16': MaxWeightTo16,
+   587                                                               # Policy
+   588         1          9.0      9.0      0.0                      'IsProlongation': IsProlongation,
+   589         1          9.0      9.0      0.0                      'DriverUnlimit': DriverUnlimit,
+   590         1          9.0      9.0      0.0                      'OwnerKLADR_Num': OwnerKLADR_Num,
+   591         1         10.0     10.0      0.0                      'freq_geo': freq_geo,
+   592         1         10.0     10.0      0.0                      'freq_0_100_geo': freq_0_100_geo,
+   593         1          9.0      9.0      0.0                      'freq_100_geo': freq_100_geo,
+   594         1          9.0      9.0      0.0                      'population_1000': population_1000,
+   595         1          9.0      9.0      0.0                      'population_500': population_500,
+   596         1          9.0      9.0      0.0                      'population_250': population_250,
+   597         1          9.0      9.0      0.0                      'population_60': population_60,
+   598         1          9.0      9.0      0.0                      'population_50_log': population_50_log,
+   599         1          9.0      9.0      0.0                      'city_population_max_50': city_population_max_50,
+   600         1         10.0     10.0      0.0                      'city_population_max_50_log': city_population_max_50_log,
+   601         1          9.0      9.0      0.0                      'city_dist_max_50': city_dist_max_50,
+   602         1          9.0      9.0      0.0                      'city_dist_max_50_log': city_dist_max_50_log,
+   603         1          9.0      9.0      0.0                      'center_population': center_population,
+   604         1          9.0      9.0      0.0                      'center_population_log': center_population_log,
+   605         1          9.0      9.0      0.0                      'center_dist': center_dist,
+   606         1          9.0      9.0      0.0                      'center_dist_log': center_dist_log,
+   607         1         10.0     10.0      0.0                      'region_density': region_density,
+   608         1          9.0      9.0      0.0                      'region_density_log': region_density_log,
+   609                                                           }])
+   610
+   611         1    2979795.0 2979795.0     66.0                  predict_poisson_h2o = get_model_value(hf, model_poisson_h2o)
+   612         1         18.0     18.0      0.0                  json_.update({'model_ver_poisson_h2o': Config.model_poisson_h2o_name})
+   613         1         21.0     21.0      0.0                  json_.update({'predict_poisson_h2o': str(predict_poisson_h2o)})
+   614         1        866.0    866.0      0.0                  print(f"predict_poisson_h2o: {predict_poisson_h2o}")
+   615
+   616         1      21757.0  21757.0      0.5                  predict_poisson_xgb = get_model_value(df, model_poisson_xgb)
+   617         1         28.0     28.0      0.0                  json_.update({'model_ver_poisson_xgb': Config.model_poisson_xgb_name})
+   618         1         29.0     29.0      0.0                  json_.update({'predict_poisson_xgb': str(predict_poisson_xgb)})
+   619         1        465.0    465.0      0.0                  print(f"predict_poisson_xgb: {predict_poisson_xgb}")
+   620
+   621                                                           # Получаем средний убыток по портфелю в разрезе регионов, если региона нет в списке - тогда 105 000
+   622         1       2273.0   2273.0      0.1                  df_ML = df_Mean_Loss[df_Mean_Loss.Region == OwnerKLADRCode_2]
+   623         1        247.0    247.0      0.0                  predict_gamma = int(df_ML['MeanLoss'].values[0]) if len(df_ML) > 0 else Constants.mean_loss
+   624         1         12.0     12.0      0.0                  json_.update({'model_ver_gamma': 'region_mean_loss'})
+   625         1         11.0     11.0      0.0                  json_.update({'predict_gamma': predict_gamma})
+   626         1        499.0    499.0      0.0                  print(f"predict_gamma: {predict_gamma}")
+   627
+   628         1         27.0     27.0      0.0                  MeanLoss_h2o = (predict_poisson_h2o * predict_gamma) / Premium
+   629         1         39.0     39.0      0.0                  MeanLoss_h2o = int(MeanLoss_h2o * 100)
+   630         1         15.0     15.0      0.0                  json_.update({'MeanLoss_h2o': MeanLoss_h2o})
+   631         1        985.0    985.0      0.0                  print(f"MeanLoss_h2o: {MeanLoss_h2o}")
+   632
+   633         1         79.0     79.0      0.0                  MeanLoss_xgb = (predict_poisson_xgb * predict_gamma) / Premium
+   634         1         14.0     14.0      0.0                  MeanLoss_xgb = int(MeanLoss_xgb * 100)
+   635         1         12.0     12.0      0.0                  json_.update({'MeanLoss_xgb': MeanLoss_xgb})
+   636         1        947.0    947.0      0.0                  print(f"MeanLoss_xgb: {MeanLoss_xgb}")
+   637
+   638         1        100.0    100.0      0.0                  now_date_end_predict = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S.%f")
+   639         1         17.0     17.0      0.0                  json_.update({'now_date_end_predict': now_date_end_predict})
+   640
+   641         1        726.0    726.0      0.0                  print(f"----- finish predict {str(now_date_end_predict)} -----")
+   642
+   643
+   644                                                       except Exception as e:
+   645
+   646                                                           ban = True
+   647                                                           print(e)
+   648                                                           comment = 'Прогноз невозможен'
+   649
+   650                                                   # ***** Определяем сегмент *****
+   651
+   652         1         16.0     16.0      0.0          if LossRange is not None and MaxLossRange is not None:
+   653         1         22.0     22.0      0.0              json_.update({'LossRange': LossRange})
+   654         1         17.0     17.0      0.0              json_.update({'MaxLossRange': MaxLossRange})
+   655                                                   else:
+   656                                                       ban = True
+   657                                                       comment = 'Планка не определена'
+   658
+   659         1         16.0     16.0      0.0          if ban:
+   660                                                       PredictSegment = "Запретительный"
+   661         1         16.0     16.0      0.0          elif MeanLoss_h2o > MaxLossRange:
+   662                                                       PredictSegment = "Запретительный"
+   663                                                       comment = 'OK'
+   664         1         16.0     16.0      0.0          elif MeanLoss_h2o > LossRange:
+   665                                                       PredictSegment = "Рисковый"
+   666                                                       comment = 'OK'
+   667                                                   else:
+   668         1         17.0     17.0      0.0              PredictSegment = "Целевой-2"
+   669         1         15.0     15.0      0.0              comment = 'OK'
+   670
+   671         1        528.0    528.0      0.0          print(f"PredictSegment: {PredictSegment}")
+   672         1         20.0     20.0      0.0          json_.update({"PredictSegment": PredictSegment})
+   673         1         92.0     92.0      0.0          now_date_end = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S.%f")
+   674         1        746.0    746.0      0.0          print(f"----- finish {str(now_date_end)} -----")
+   675         1         18.0     18.0      0.0          json_.update({'now_date_end': now_date_end})
+   676         1       5238.0   5238.0      0.1          save_quote_json(json_, now_date)
+   677
+   678         1         12.0     12.0      0.0          try:
+   679         2         32.0     16.0      0.0              json_segment = {'PredictSegment': PredictSegment, 'predict_poisson_h2o': str(predict_poisson_h2o),
+   680         1         13.0     13.0      0.0                              'predict_poisson_xgb': str(predict_poisson_xgb), 'comment': comment}
+   681                                                   except Exception:
+   682                                                       json_segment = {'PredictSegment': PredictSegment, 'Score': 0, 'comment': comment}
+   683                                                   print_stats()
+   684                                                   return json.dumps(json_segment)
+   685
+   686
+   687                                               except Exception as err:
+   688
+   689                                                   print('ERROR')
+   690                                                   print(traceback.format_exc())
+   691                                                   json_.update({'ERROR_Traceback': str(err)})
+   692                                                   save_quote_json(json_, now_date)
+   693                                                   json_segment = {'PredictSegment': 'Запретительный', 'Score': 0, 'comment': 'ERROR'}
+   694                                                   return json.dumps(json_segment)

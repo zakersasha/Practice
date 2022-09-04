@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ _('Харламов Александр') }}</title>
+    <link rel="stylesheet" href="static/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+</head>
+<body>
+
+<div class="container py-4">
+    <header class="pb-3 mb-4 border-bottom">
+        <a class="d-flex align-items-center text-dark text-decoration-none">
+
+            <a class="lang" href="/ru">RU </a>
+            <a class="lang" href="/en"> EN</a>
+
+            <img width="80" height="80" class="me-2" viewBox="0 0 118 94" role="img" src="static/dev.png"/>
+            <span class="name"> <b>{{ _('Харламов Александр') }}</b></span>
+            <span class="loc"> <b><i class="fas fa-map-marker"></i></b>{{ _(' Пермь, Россия') }}</span>
+        </a>
+    </header>
+
+    <div class="p-3 bg-light rounded-3">
+        <div class="d-flex align-items-left text-dark text-decoration-none">
+            <img class="rounded-corners" src="static/me.JPG" width="230" height="300"/>
+
+
+            <h4 class="display-5">{{ _('Бэкэнд разработчик') }}
+                <br><br>{{_('Контакты')}}:
+                <ul>
+                    <a href="mailto:adkharlamov@mail.ru">
+                        <li class="fab"><i class="fa fa-envelope "> </i>{{ _(' adkharlamov@mail.ru') }}</li>
+                    </a><br>
+                    <a href="https://t.me/sashakharlamov">
+                        <li class="fab"><i class="fab fa-telegram"> </i> Telegram</li>
+                    </a>
+                </ul>
+                {{_('Ссылки')}}:
+                <ul>
+                    <a href="https://github.com/zakersasha">
+                        <li class="fab"><i class="fab fa-github"> </i> GitHub</li>
+                    </a><br>
+                    <a href="https://www.instagram.com/_sashakharlamov_/">
+                        <li class="fab"><i class="fab fa-instagram"> </i> Instagram</li>
+                    </a><br>
+                    {% if lang=='ru'%}
+                    <a href="https://perm.hh.ru/resume/cabfe46cff09cbfd1e0039ed1f64786d7a3879">
+                        <li class="fab"><i class="supernova-logo supernova-logo_hh-ru supernova-logo_inversed"> </i> HeadHunter</li>
+                    </a>
+                    {% else %}
+                    <a href="https://www.linkedin.com/in/adkharlamov/">
+                        <li class="fab"><i class="fab fa-linkedin"> </i> LinkedIn</li>
+                    </a><br>
+                    {% endif %}
+                </ul>
+            </h4>
+        </div>
+
+        <a class="d-flex align-items-left mt-4 text-dark text-decoration-none">
+            <h3 class="display-7">{{ _('Обо мне') }}</h3>
+        </a>
+
+        <p class="col-md-12 mt-2 fs-4">{{ _('Окончил бакалавриат НИУ «Высшая школа экономики» по программе
+            бизнес-информатика.
+            Развиваюсь в бэкэнд разработке систем, сервисов, сервинга моделей ML. Хочу получать новый опыт и
+            совершенствовать
+            свои навыки разработки.') }}</p>
+        {% if lang=='ru'%}
+        <a href="/static/CV_RU.pdf" class="btn primary text-primary"><i class="fas fa-file"></i>{{ _(' Резюме') }}</a>
+        <a href="/static/CV_RU.pdf" download="CV_Kharlamov" class="btn primary text-primary"><i
+                class="fas fa-download"></i>{{ _(' Скачать резюме') }}</a>
+        {% else %}
+        <a href="/static/CV_EN.pdf" class="btn primary text-primary"><i class="fas fa-file"></i>{{ _(' Резюме') }}</a>
+        <a href="/static/CV_EN.pdf" download="CV_Kharlamov" class="btn primary text-primary"><i
+                class="fas fa-download"></i>{{ _(' Скачать резюме') }}</a>
+        {% endif %}
+    </div>
+
+    <footer class="pt-3 mt-4 text-muted border-top">
+        © adkharlamov@mail.ru
+    </footer>
+
+</div>
+
+</body>
+</html>

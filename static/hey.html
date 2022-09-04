@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Monitor</title>
+	<link rel="stylesheet" href="static/hey.css">
+</head>
+<body>
+<h1>Requests monitoring</h1>
+<table class="table">
+
+	<thead>
+		<tr>
+			<th style="background-color: cornflowerblue">Total</th>
+			<th style="background-color: forestgreen">Success</th>
+			<th style="background-color: indianred">Failed</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>{{ total_requests }}</td>
+			<td>{{ success_requests }} ( {{ percentage_s }}% )</td>
+			<td>{{ failed_requests }} ( {{ percentage_f }}% )</td>
+		</tr>
+	</tbody>
+
+</table>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Metric name</th>
+			<th>Route</th>
+			<th>Status</th>
+			<th>Count</th>
+		</tr>
+	</thead>
+	<tbody>
+
+			{% for k,v in all_metrics.items() %}
+			<tr>
+				<td>{{v[0]}}</td>
+				<td>{{v[1]}}</td>
+				<td>{{v[2]}}</td>
+				<td>{{v[3]}}</td>
+            </tr>
+            {% endfor %}
+
+	</tbody>
+</table>
+<br>
+<img src='static/total-failed.png'/><img src='static/success-failed.png'/>
+</body>
+</html>

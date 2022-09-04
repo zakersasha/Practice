@@ -1,0 +1,625 @@
+
+
+Line #    Mem usage    Increment  Occurrences   Line Contents
+=============================================================
+    64    240.4 MiB    240.4 MiB           1   @profile
+    65                                         def get_request_json():
+    66    240.4 MiB      0.0 MiB           1       json_input = {
+    67    240.4 MiB      0.0 MiB           1           'ID': 1201823,
+    68    240.4 MiB      0.0 MiB           1           'PolicyId': 'ede2bde0-4adc-453f-86d4-94ab94e0c94c',
+    69    240.4 MiB      0.0 MiB           1           'DateStart': '2022-05-30',
+    70    240.4 MiB      0.0 MiB           1           'InsurerClientType': 1,
+    71    240.4 MiB      0.0 MiB           1           'InsurerGender': 'Male',
+    72    240.4 MiB      0.0 MiB           1           'DriverMinAge': 34,
+    73    240.4 MiB      0.0 MiB           1           'DriverMinExperience': 10,
+    74    240.4 MiB      0.0 MiB           1           'CoefKBM': '0.55',
+    75    240.4 MiB      0.0 MiB           1           'TSCategory': '2',
+    76    240.4 MiB      0.0 MiB           1           'IssueYear': '2013',
+    77    240.4 MiB      0.0 MiB           1           'EnginePower': '140',
+    78    240.4 MiB      0.0 MiB           1           'SeatsNumberTo16': '1',
+    79    240.4 MiB      0.0 MiB           1           'MaxWeightTo16': '1',
+    80    240.4 MiB      0.0 MiB           1           'Premium': 2130.82,
+    81    240.4 MiB      0.0 MiB           1           'SellerIKP': '04076',
+    82    240.4 MiB      0.0 MiB           1           'FilialCode': '00498',
+    83    240.4 MiB      0.0 MiB           1           'IsProlongation': '1',
+    84    240.4 MiB      0.0 MiB           1           'DriverUnlimit': '0',
+    85    240.4 MiB      0.0 MiB           1           'OwnerKLADRCode': '2200800000100',
+    86    240.4 MiB      0.0 MiB           1           'IsGoodName': 'Good',
+    87    240.4 MiB      0.0 MiB           1           'OwnerKLADRCode_2': '22',
+    88    240.4 MiB      0.0 MiB           1           'json': None,
+    89    240.4 MiB      0.0 MiB           1           'InsurerTitle': 'AAA'}
+    90
+    91    240.4 MiB      0.0 MiB           1       json_ = json_input
+    92
+    93    240.4 MiB      0.0 MiB           1       now_date = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S.%f")
+    94    240.4 MiB      0.0 MiB           1       json_.update({'now_date': now_date})
+    95
+    96    240.4 MiB      0.0 MiB           1       print(f"********************* START {str(now_date)} *********************")
+    97
+    98    240.4 MiB      0.0 MiB           1       try:
+    99
+   100                                                 # ***** Читаем JSON *****
+   101
+   102                                                 # Client
+   103    240.4 MiB      0.0 MiB           1           InsurerOwner = 1
+   104    240.4 MiB      0.0 MiB           4           InsurerClientType = json_input["InsurerClientType"] if "InsurerClientType" in json_input and json_input[
+   105    240.4 MiB      0.0 MiB           2               "InsurerClientType"] is not None else 1
+   106    240.4 MiB      0.0 MiB           1           InsurerTitle = json_input["InsurerTitle"]
+   107    240.4 MiB      0.0 MiB           1           InsurerGender = json_input["InsurerGender"] if "InsurerGender" in json_input else None
+   108    240.4 MiB      0.0 MiB           1           DriversList = json_input["DriversList"] if 'DriversList' in json_input else None
+   109    240.4 MiB      0.0 MiB           2           DriverGender = DriversList[0]["DriverGender"] if isinstance(DriversList, list) and len(
+   110    240.4 MiB      0.0 MiB           1               DriversList) > 0 and "DriverGender" in DriversList[0] else None
+   111    240.4 MiB      0.0 MiB           1           DriverMinAge = json_input["DriverMinAge"]
+   112    240.4 MiB      0.0 MiB           1           DriverMinExperience = json_input["DriverMinExperience"]
+   113    240.4 MiB      0.0 MiB           1           CoefKBM = json_input["CoefKBM"]
+   114
+   115                                                 # Vehicle
+   116    240.4 MiB      0.0 MiB           1           TSCategory = json_input["TSCategory"] if "TSCategory" in json_input else 2
+   117    240.4 MiB      0.0 MiB           1           IssueYear = json_input["IssueYear"] if "IssueYear" in json_input else None
+   118    240.4 MiB      0.0 MiB           1           EnginePower = json_input["EnginePower"] if "EnginePower" in json_input else None
+   119    240.4 MiB      0.0 MiB           1           SeatsNumberTo16 = json_input["SeatsNumberTo16"] if "SeatsNumberTo16" in json_input else '0'
+   120    240.4 MiB      0.0 MiB           1           MaxWeightTo16 = json_input["MaxWeightTo16"] if "MaxWeightTo16" in json_input else '0'
+   121    240.4 MiB      0.0 MiB           1           TSBrandId = json_input["TSBrandId"] if "TSBrandId" in json_input and json_input["TSBrandId"] is not None else 0
+   122    240.4 MiB      0.0 MiB           1           TSModelId = json_input["TSModelId"] if "TSModelId" in json_input and json_input["TSModelId"] is not None else 0
+   123
+   124                                                 # Policy
+   125    240.4 MiB      0.0 MiB           1           Premium = json_input['Premium']
+   126    240.4 MiB      0.0 MiB           1           SellerIKP = json_input["SellerIKP"] if "SellerIKP" in json_input else None
+   127    240.4 MiB      0.0 MiB           1           FilialCode = json_input["FilialCode"] if "FilialCode" in json_input else None
+   128    240.4 MiB      0.0 MiB           1           IsTaxi = json_input["IsTaxi"] if "IsTaxi" in json_input and json_input["IsTaxi"] is not None else 0
+   129    240.4 MiB      0.0 MiB           4           IsProlongation = json_input["IsProlongation"] if "IsProlongation" in json_input and json_input[
+   130    240.4 MiB      0.0 MiB           2               "IsProlongation"] is not None else 0
+   131    240.4 MiB      0.0 MiB           4           DriverUnlimit = json_input["DriverUnlimit"] if "DriverUnlimit" in json_input and json_input[
+   132    240.4 MiB      0.0 MiB           2               "DriverUnlimit"] is not None else 0
+   133    240.4 MiB      0.0 MiB           1           OwnerKLADRCode = json_input["OwnerKLADRCode"] if "OwnerKLADRCode" in json_input else None
+   134    240.4 MiB      0.0 MiB           1           OwnerRegionName = json_input["OwnerRegionName"] if "OwnerRegionName" in json_input else None
+   135
+   136                                                 # ***** Обогащаем данными от Автокода *****
+   137
+   138    240.4 MiB      0.0 MiB           1           AvtoKod_year = None
+   139    240.4 MiB      0.0 MiB           1           AvtoKod_EnginePower = None
+   140    240.4 MiB      0.0 MiB           1           AvtoKod_Taxi = None
+   141
+   142    240.4 MiB      0.0 MiB           1           if "AvtoKodJSON" in json_input and json_input["AvtoKodJSON"] is not None:
+   143                                                     AvtoKodJSON = json_input["AvtoKodJSON"]
+   144                                                     if isinstance(AvtoKodJSON, dict):
+   145                                                         if "tech_data" in AvtoKodJSON:
+   146
+   147                                                             if "year" in AvtoKodJSON["tech_data"]:
+   148                                                                 try:
+   149                                                                     AvtoKod_year = int(AvtoKodJSON["tech_data"]["year"])
+   150                                                                     json_.update({"Autocod_year": AvtoKod_year})
+   151                                                                 except Exception:
+   152                                                                     AvtoKod_year = None
+   153
+   154                                                             if "engine" in AvtoKodJSON["tech_data"]:
+   155                                                                 if "power" in AvtoKodJSON["tech_data"]["engine"]:
+   156                                                                     if "hp" in AvtoKodJSON["tech_data"]["engine"]["power"]:
+   157                                                                         try:
+   158                                                                             AvtoKod_EnginePower = float(AvtoKodJSON["tech_data"]["engine"]["power"]["hp"])
+   159                                                                             json_.update({"Autocod_EnginePower": AvtoKod_EnginePower})
+   160                                                                         except Exception:
+   161                                                                             AvtoKod_EnginePower = None
+   162
+   163                                                         if "taxi" in AvtoKodJSON:
+   164
+   165                                                             if "used_in_taxi" in AvtoKodJSON["taxi"]:
+   166                                                                 AvtoKod_Taxi = AvtoKodJSON["taxi"]["used_in_taxi"]
+   167                                                                 json_.update({"Autocod_Taxi": AvtoKod_Taxi})
+   168
+   169    240.4 MiB      0.0 MiB           1           if AvtoKod_year is not None:
+   170                                                     if IssueYear is None:
+   171                                                         IssueYear = AvtoKod_year
+   172                                                     else:
+   173                                                         IssueYear = min(IssueYear, AvtoKod_year)
+   174
+   175    240.4 MiB      0.0 MiB           1           if AvtoKod_EnginePower is not None:
+   176                                                     if EnginePower is None:
+   177                                                         EnginePower = AvtoKod_EnginePower
+   178                                                     else:
+   179                                                         EnginePower = max(EnginePower, AvtoKod_EnginePower)
+   180
+   181    240.4 MiB      0.0 MiB           1           if AvtoKod_Taxi is not None:
+   182                                                     IsTaxi = 1 if IsTaxi in (1, '1', True) or AvtoKod_Taxi in (1, '1', True) else 0
+   183
+   184                                                 # ***** Выполняем преобразования *****
+   185
+   186                                                 # Client
+   187
+   188    240.4 MiB      0.0 MiB           1           InsurerGender = DriverGender if DriverGender is not None else InsurerGender
+   189
+   190    240.4 MiB      0.0 MiB           1           GenderM, GenderW = f_gender(InsurerClientType, InsurerGender, InsurerTitle)
+   191    240.4 MiB      0.0 MiB           1           json_.update({'frame_GenderM': GenderM})
+   192    240.4 MiB      0.0 MiB           1           json_.update({'frame_GenderW': GenderW})
+   193
+   194    240.4 MiB      0.0 MiB           1           IsGoodName = f_IsGoodName(InsurerTitle, df_names["Name"])
+   195    240.4 MiB      0.0 MiB           1           json_.update({'frame_IsGoodName': IsGoodName})
+   196
+   197    240.4 MiB      0.0 MiB           1           DriverMinAge = f_DriverMinAge(DriverMinAge)
+   198    240.4 MiB      0.0 MiB           1           json_.update({'frame_DriverMinAge': DriverMinAge})
+   199
+   200    240.4 MiB      0.0 MiB           1           DriverMinAge_M = f_age_gender(DriverMinAge, GenderM)
+   201    240.4 MiB      0.0 MiB           1           json_.update({'frame_DriverMinAge_M': DriverMinAge_M})
+   202
+   203    240.4 MiB      0.0 MiB           1           DriverMinAge_M_2 = DriverMinAge_M ** 2
+   204    240.4 MiB      0.0 MiB           1           json_.update({'frame_DriverMinAge_M_2': DriverMinAge_M_2})
+   205
+   206    240.4 MiB      0.0 MiB           1           DriverMinAge_W = f_age_gender(DriverMinAge, GenderW)
+   207    240.4 MiB      0.0 MiB           1           json_.update({'frame_DriverMinAge_W': DriverMinAge_W})
+   208
+   209    240.4 MiB      0.0 MiB           1           DriverMinAge_W_2 = DriverMinAge_W ** 2
+   210    240.4 MiB      0.0 MiB           1           json_.update({'frame_DriverMinAge_W_2': DriverMinAge_W_2})
+   211
+   212    240.4 MiB      0.0 MiB           1           DriverMinExperience = f_DriverMinExp(DriverMinExperience)
+   213    240.4 MiB      0.0 MiB           1           json_.update({'frame_DriverMinExperience': DriverMinExperience})
+   214
+   215    240.4 MiB      0.0 MiB           1           DriverMinExperience_2 = DriverMinExperience ** 2
+   216    240.4 MiB      0.0 MiB           1           json_.update({'frame_DriverMinExperience_2': DriverMinExperience_2})
+   217
+   218    240.4 MiB      0.0 MiB           1           DriverLicenseAge = DriverMinAge - DriverMinExperience
+   219    240.4 MiB      0.0 MiB           1           DriverLicenseAge = 18 if DriverLicenseAge < 18 else DriverLicenseAge
+   220    240.4 MiB      0.0 MiB           1           json_.update({'frame_DriverLicenseAge': DriverLicenseAge})
+   221
+   222    240.4 MiB      0.0 MiB           1           kvc = f_kvc(DriverMinAge, DriverMinExperience)
+   223    240.4 MiB      0.0 MiB           1           json_.update({'frame_CoefKVC': kvc})
+   224
+   225    240.4 MiB      0.0 MiB           1           CoefKBM = f_kbm(CoefKBM)
+   226    240.4 MiB      0.0 MiB           1           json_.update({'frame_CoefKBM': CoefKBM})
+   227
+   228    240.4 MiB      0.0 MiB           1           kbm_exp10plus, kbm_exp10minus = f_kbm_exp10(CoefKBM, DriverMinExperience)
+   229    240.4 MiB      0.0 MiB           1           json_.update({'frame_kbm_exp10plus': kbm_exp10plus})
+   230    240.4 MiB      0.0 MiB           1           json_.update({'frame_kbm_exp10minus': kbm_exp10minus})
+   231
+   232    240.4 MiB      0.0 MiB           1           kbm_exp10plus_2 = kbm_exp10plus ** 2
+   233    240.4 MiB      0.0 MiB           1           json_.update({'frame_kbm_exp10plus_2': kbm_exp10plus_2})
+   234
+   235    240.4 MiB      0.0 MiB           1           kbm_exp10minus_2 = kbm_exp10minus ** 2
+   236    240.4 MiB      0.0 MiB           1           json_.update({'frame_kbm_exp10minus_2': kbm_exp10minus_2})
+   237
+   238    240.4 MiB      0.0 MiB           1           kvc_kbm = (CoefKBM + kvc) // 2
+   239    240.4 MiB      0.0 MiB           1           json_.update({'frame_kvc_kbm': kvc_kbm})
+   240
+   241                                                 # Vehicle
+   242
+   243    240.4 MiB      0.0 MiB           1           veh_moto, veh_car, veh_truck = f_TSCategory(TSCategory)
+   244    240.4 MiB      0.0 MiB           1           json_.update({'frame_veh_moto': veh_moto})
+   245    240.4 MiB      0.0 MiB           1           json_.update({'frame_veh_car': veh_car})
+   246    240.4 MiB      0.0 MiB           1           json_.update({'frame_veh_truck': veh_truck})
+   247
+   248    240.4 MiB      0.0 MiB           1           VehicleAge = f_Vehicle_Age(IssueYear)
+   249    240.4 MiB      0.0 MiB           1           json_.update({'frame_VehicleAge': VehicleAge})
+   250
+   251    240.4 MiB      0.0 MiB           1           VehicleAge_2 = VehicleAge ** 2
+   252    240.4 MiB      0.0 MiB           1           json_.update({'frame_VehicleAge_2': VehicleAge_2})
+   253
+   254    240.4 MiB      0.0 MiB           1           EnginePower = f_Power(EnginePower)
+   255    240.4 MiB      0.0 MiB           1           json_.update({'frame_EnginePower': EnginePower})
+   256
+   257    240.4 MiB      0.0 MiB           1           SeatsNumberTo16 = f_seats(SeatsNumberTo16)
+   258    240.4 MiB      0.0 MiB           1           json_.update({'frame_SeatsNumberTo16': SeatsNumberTo16})
+   259
+   260    240.4 MiB      0.0 MiB           1           MaxWeightTo16 = f_weight(MaxWeightTo16)
+   261    240.4 MiB      0.0 MiB           1           json_.update({'frame_MaxWeightTo16': MaxWeightTo16})
+   262
+   263                                                 # Policy
+   264
+   265    240.4 MiB      0.0 MiB           1           IsProlongation = f_prolongation(IsProlongation)
+   266
+   267    240.4 MiB      0.0 MiB           1           DriverUnlimit = f_driver_unlimit(DriverUnlimit)
+   268
+   269    240.4 MiB      0.0 MiB           1           OwnerKLADRCode_2 = f_get_region_num(OwnerKLADRCode, f_regions_useless())
+   270    240.4 MiB      0.0 MiB           1           json_.update({'frame_OwnerKLADRCode_2': OwnerKLADRCode_2})
+   271
+   272    240.4 MiB      0.0 MiB           1           OwnerKLADR_Num = f_Region_Kladr(OwnerKLADRCode_2)
+   273    240.4 MiB      0.0 MiB           1           json_.update({'frame_OwnerKLADR_Num': OwnerKLADR_Num})
+   274
+   275                                                 # Geo
+   276
+   277    240.5 MiB      0.1 MiB           1           df_geo = df_kladr[df_kladr.OwnerKLADRCode == OwnerKLADRCode]
+   278    240.5 MiB      0.0 MiB           1           df_geo = df_geo.iloc[0] if len(df_geo) > 0 else None
+   279
+   280    240.5 MiB      0.0 MiB           1           freq_geo = df_geo['freq_geo'] if df_geo is not None and not np.isnan(df_geo['freq_geo']) else Constants.freq_geo
+   281    240.5 MiB      0.0 MiB           1           json_.update({'frame_freq_geo': freq_geo})
+   282
+   283    240.5 MiB      0.0 MiB           3           freq_0_100_geo = df_geo['freq_0_100_geo'] if df_geo is not None and not np.isnan(
+   284    240.5 MiB      0.0 MiB           1               df_geo['freq_0_100_geo']) else Constants.freq_geo_0_100
+   285    240.5 MiB      0.0 MiB           1           json_.update({'frame_freq_0_100_geo': freq_0_100_geo})
+   286
+   287    240.5 MiB      0.0 MiB           3           freq_100_geo = df_geo['freq_100_geo'] if df_geo is not None and not np.isnan(
+   288    240.5 MiB      0.0 MiB           1               df_geo['freq_100_geo']) else Constants.freq_geo_100
+   289    240.5 MiB      0.0 MiB           1           json_.update({'frame_freq_100_geo': freq_100_geo})
+   290
+   291    240.6 MiB      0.0 MiB           3           population_50 = df_geo['population_50'] + 1 if df_geo is not None and not np.isnan(
+   292    240.5 MiB      0.0 MiB           1               df_geo['population_50']) else Constants.geo_population_50
+   293    240.6 MiB      0.0 MiB           1           json_.update({'frame_population_50': population_50})
+   294
+   295    240.6 MiB      0.0 MiB           1           population_1000, population_500, population_250, population_60 = f_population(population_50)
+   296    240.6 MiB      0.0 MiB           1           json_.update({'frame_population_1000': population_1000})
+   297    240.6 MiB      0.0 MiB           1           json_.update({'frame_population_500': population_500})
+   298    240.6 MiB      0.0 MiB           1           json_.update({'frame_population_250': population_250})
+   299    240.6 MiB      0.0 MiB           1           json_.update({'frame_population_60': population_60})
+   300
+   301    240.6 MiB      0.0 MiB           3           city_population_max_50 = df_geo['city_population_max_50'] + 1 if df_geo is not None and not np.isnan(
+   302    240.6 MiB      0.0 MiB           1               df_geo['city_population_max_50']) else Constants.geo_city_population_max_50
+   303    240.6 MiB      0.0 MiB           1           json_.update({'frame_city_population_max_50': city_population_max_50})
+   304
+   305    240.6 MiB      0.0 MiB           3           city_dist_max_50 = df_geo['city_dist_max_50'] + 1 if df_geo is not None and not np.isnan(
+   306    240.6 MiB      0.0 MiB           1               df_geo['city_dist_max_50']) else Constants.geo_city_dist_max_50
+   307    240.6 MiB      0.0 MiB           1           json_.update({'frame_city_dist_max_50': city_dist_max_50})
+   308
+   309    240.6 MiB      0.0 MiB           3           center_population = df_geo['center_population'] if df_geo is not None and not np.isnan(
+   310    240.6 MiB      0.0 MiB           1               df_geo['center_population']) else Constants.geo_center_population
+   311    240.6 MiB      0.0 MiB           1           json_.update({'frame_center_population': center_population})
+   312
+   313    240.6 MiB      0.0 MiB           3           center_dist = df_geo['center_dist'] + 1 if df_geo is not None and not np.isnan(
+   314    240.6 MiB      0.0 MiB           1               df_geo['center_dist']) else Constants.geo_center_dist
+   315    240.6 MiB      0.0 MiB           1           center_dist = center_dist if center_dist < Constants.geo_center_dist_max else Constants.geo_center_dist_max
+   316    240.6 MiB      0.0 MiB           1           json_.update({'frame_center_dist': center_dist})
+   317
+   318    240.6 MiB      0.0 MiB           3           region_density = df_geo['region_density'] if df_geo is not None and not np.isnan(
+   319    240.6 MiB      0.0 MiB           1               df_geo['region_density']) else Constants.geo_region_density
+   320    240.6 MiB      0.0 MiB           1           region_density = region_density if region_density < Constants.geo_region_density_max else Constants.geo_region_density_max
+   321    240.6 MiB      0.0 MiB           1           json_.update({'frame_region_density': region_density})
+   322
+   323    240.6 MiB      0.0 MiB           1           population_50_log = math.log(population_50)
+   324    240.6 MiB      0.0 MiB           1           json_.update({'frame_population_50_log': population_50_log})
+   325
+   326    240.6 MiB      0.0 MiB           1           city_population_max_50_log = math.log(city_population_max_50)
+   327    240.6 MiB      0.0 MiB           1           json_.update({'frame_city_population_max_50_log': city_population_max_50_log})
+   328
+   329    240.6 MiB      0.0 MiB           1           city_dist_max_50_log = math.log(city_dist_max_50)
+   330    240.6 MiB      0.0 MiB           1           json_.update({'frame_city_dist_max_50_log': city_dist_max_50_log})
+   331
+   332    240.6 MiB      0.0 MiB           1           center_population_log = math.log(center_population)
+   333    240.6 MiB      0.0 MiB           1           json_.update({'frame_center_population_log': center_population_log})
+   334
+   335    240.6 MiB      0.0 MiB           1           center_dist_log = math.log(center_dist)
+   336    240.6 MiB      0.0 MiB           1           json_.update({'frame_center_dist_log': center_dist_log})
+   337
+   338    240.6 MiB      0.0 MiB           1           region_density_log = math.log(region_density)
+   339    240.6 MiB      0.0 MiB           1           json_.update({'frame_region_density_log': region_density_log})
+   340
+   341                                                 # ***** Отрабатывем случаи когда расчет не нужен *****
+   342
+   343    240.6 MiB      0.0 MiB           1           ban = False
+   344    240.6 MiB      0.0 MiB           1           comment = None
+   345    240.6 MiB      0.0 MiB           1           LossRange = None
+   346    240.6 MiB      0.0 MiB           1           MaxLossRange = None
+   347
+   348                                                 # Проверка отсутствия премии
+   349    240.6 MiB      0.0 MiB           1           ban_premium = False
+   350
+   351    240.6 MiB      0.0 MiB           1           try:
+   352    240.6 MiB      0.0 MiB           1               Premium = float(Premium)
+   353    240.6 MiB      0.0 MiB           1               print(f"Premium: {Premium}")
+   354    240.6 MiB      0.0 MiB           1               if Premium <= Constants.premium_min:
+   355                                                         ban_premium = True
+   356                                                 except:
+   357                                                     ban_premium = True
+   358
+   359    240.6 MiB      0.0 MiB           1           if ban_premium:
+   360                                                     ban = True
+   361                                                     print('ban_premium')
+   362                                                     comment = 'Отсутствует премия'
+   363
+   364                                                 # Проверка на юрлицо
+   365    240.6 MiB      0.0 MiB           1           if InsurerClientType not in (1, '1'):
+   366                                                     ban = True
+   367                                                     print(f"InsurerClientType: {InsurerClientType}")
+   368                                                     comment = 'Юрлицо'
+   369
+   370                                                 # Проверка на тип ТС (не легковое или мотоцикл)
+   371    240.6 MiB      0.0 MiB           1           if TSCategory not in (2, 3, '2', '3'):
+   372                                                     ban = True
+   373                                                     print(f"TSCategory: {TSCategory}")
+   374                                                     comment = 'Тип ТС'
+   375
+   376                                                 # Проверка на такси
+   377    240.6 MiB      0.0 MiB           1           if IsTaxi == 1:
+   378                                                     ban = True
+   379                                                     print('Taxi')
+   380                                                     comment = 'Такси'
+   381
+   382                                                 # Проверка на мультидрайв
+   383    240.6 MiB      0.0 MiB           1           if DriverUnlimit in (1, '1'):
+   384                                                     ban = True
+   385                                                     print('DriverUnlimit')
+   386                                                     comment = 'Мультидрайв'
+   387
+   388                                                 # Проверка на заблокированные территории
+   389    240.6 MiB      0.0 MiB           1           ban_district = False
+   390
+   391    240.6 MiB      0.0 MiB         346           for _, value in df_ban_district.iterrows():
+   392
+   393    240.6 MiB      0.0 MiB         345               str_kladr = re.sub(r"|\n|\r|", '', value.Kladr_code)
+   394    240.6 MiB      0.0 MiB         345               ban_coef_KBM = 2.0 if pd.isnull(value.coef_KBM) else value.coef_KBM
+   395    240.6 MiB      0.0 MiB         345               ban_kbm = False if pd.isnull(value.coef_KBM) else True
+   396    240.6 MiB      0.0 MiB         345               lenKladr = len(str_kladr)
+   397
+   398    240.6 MiB      0.0 MiB         345               if value.District_full == '1':
+   399    240.6 MiB      0.0 MiB         278                   if OwnerKLADRCode.find(str_kladr, 0, lenKladr) != -1:
+   400                                                             if ban_kbm:
+   401                                                                 if CoefKBM >= ban_coef_KBM:
+   402                                                                     ban_district = True
+   403                                                                     break
+   404                                                             else:
+   405                                                                 ban_district = True
+   406                                                                 break
+   407
+   408    240.6 MiB      0.0 MiB          67               elif str_kladr == OwnerKLADRCode:
+   409                                                         if ban_kbm:
+   410                                                             if CoefKBM >= ban_coef_KBM:
+   411                                                                 ban_district = True
+   412                                                                 break
+   413                                                         else:
+   414                                                             ban_district = True
+   415                                                             break
+   416
+   417    240.6 MiB      0.0 MiB           1           if ban_district:
+   418                                                     ban = True
+   419                                                     print('ban_district')
+   420                                                     comment = 'Территория заблокирована'
+   421
+   422                                                 # Проверка на заблокированные регионы
+   423    240.6 MiB      0.0 MiB           1           ban_region = True
+   424
+   425    240.6 MiB      0.0 MiB           1           if OwnerKLADRCode_2 is not None:
+   426
+   427    240.6 MiB      0.0 MiB           1               df_ban_regions_reg = df_ban_regions[df_ban_regions.region_code == OwnerKLADRCode_2]
+   428
+   429    240.6 MiB      0.0 MiB           1               if len(df_ban_regions_reg) > 0:
+   430    240.6 MiB      0.0 MiB           1                   LossRange = int(df_ban_regions_reg['LR_risk'].values[0])
+   431    240.6 MiB      0.0 MiB           1                   MaxLossRange = int(df_ban_regions_reg['LR_ban'].values[0])
+   432    240.6 MiB      0.0 MiB           1                   ban_region = False
+   433
+   434    240.6 MiB      0.0 MiB           1           if ban_region:
+   435                                                     ban = True
+   436                                                     print('ban_agent')
+   437                                                     comment = 'Территория заблокирована'
+   438
+   439                                                 # Проверка на заблокированных агентов
+   440    240.6 MiB      0.0 MiB           1           ban_agent = False
+   441
+   442    240.6 MiB      0.0 MiB           1           if SellerIKP is not None:
+   443
+   444    240.6 MiB      0.0 MiB           1               df_ban_agents_ikp = df_ban_agents[df_ban_agents.ikp == SellerIKP]
+   445
+   446    240.6 MiB      0.0 MiB           1               if len(df_ban_agents_ikp) > 0:
+   447                                                         LossRange = int(df_ban_agents_ikp['LR_Risk'].values[0])
+   448                                                         MaxLossRange = int(df_ban_agents_ikp['LR_Ban'].values[0])
+   449
+   450                                                         if df_ban_agents_ikp['insurer_type_ban'].values[0] == InsurerClientType:
+   451                                                             ban_agent = True
+   452
+   453    240.6 MiB      0.0 MiB           1           if ban_agent:
+   454                                                     ban = True
+   455                                                     print('ban_agent')
+   456                                                     comment = 'Агенту заблокированы продажи через Скоринг'
+   457
+   458                                                 # Проверка на заблокированные марки-модели
+   459    240.6 MiB      0.0 MiB           1           ban_ts = False
+   460
+   461    240.6 MiB      0.0 MiB           1           df_ban_ts_ts = df_ban_ts[df_ban_ts.Marka_id == TSBrandId]
+   462
+   463    240.6 MiB      0.0 MiB           1           if len(df_ban_ts_ts) > 0:
+   464
+   465                                                     for i in range(0, len(df_ban_ts_ts)):
+   466
+   467                                                         Full_Ban_ModelTS = df_ban_ts_ts['Full_Ban_ModelTS'].values[i]
+   468                                                         RegionCode = df_ban_ts_ts['RegionCode'].values[i]
+   469                                                         Model_id = df_ban_ts_ts['Model_id'].values[i]
+   470
+   471                                                         if RegionCode == OwnerKLADRCode_2:
+   472                                                             if not pd.isnull(Full_Ban_ModelTS) and Full_Ban_ModelTS == '1':
+   473                                                                 ban_ts = True
+   474                                                             elif Model_id == TSModelId:
+   475                                                                 ban_ts = True
+   476
+   477                                                         elif pd.isnull(RegionCode):
+   478                                                             if not pd.isnull(Full_Ban_ModelTS) and Full_Ban_ModelTS == '1':
+   479                                                                 ban_ts = True
+   480                                                             elif Model_id == TSModelId:
+   481                                                                 ban_ts = True
+   482
+   483    240.6 MiB      0.0 MiB           1           if ban_ts:
+   484                                                     ban = True
+   485                                                     print('ban_ts')
+   486                                                     comment = 'Заблокированная марка-модель ТС'
+   487
+   488                                                 # ***** Считаем прогнозные значения *****
+   489
+   490    240.6 MiB      0.0 MiB           1           if not ban:
+   491
+   492    240.6 MiB      0.0 MiB           1               try:
+   493
+   494    240.6 MiB      0.0 MiB           1                   now_date_start_predict = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S.%f")
+   495    240.6 MiB      0.0 MiB           1                   json_.update({'now_date_start_predict': now_date_start_predict})
+   496
+   497    240.6 MiB      0.0 MiB           1                   print(f"----- start predict {str(now_date_start_predict)} -----")
+   498
+   499    240.6 MiB      0.0 MiB           1                   hf = return_NewH2o_Frame()
+   500
+   501                                                         # Client
+   502    240.6 MiB      0.0 MiB           1                   hf[0, 'InsurerOwner'] = InsurerOwner
+   503    240.6 MiB      0.0 MiB           1                   hf[0, 'GenderM'] = GenderM
+   504    240.6 MiB      0.0 MiB           1                   hf[0, 'GenderW'] = GenderW
+   505    240.6 MiB      0.0 MiB           1                   hf[0, 'IsGoodName'] = IsGoodName
+   506    240.6 MiB      0.0 MiB           1                   hf[0, 'DriverMinAge_M'] = DriverMinAge_M
+   507    240.6 MiB      0.0 MiB           1                   hf[0, 'DriverMinAge_M_2'] = DriverMinAge_M_2
+   508    240.6 MiB      0.0 MiB           1                   hf[0, 'DriverMinAge_W'] = DriverMinAge_W
+   509    240.6 MiB      0.0 MiB           1                   hf[0, 'DriverMinAge_W_2'] = DriverMinAge_W_2
+   510    240.6 MiB      0.0 MiB           1                   hf[0, 'DriverMinExperience'] = DriverMinExperience
+   511    240.6 MiB      0.0 MiB           1                   hf[0, 'DriverMinExperience_2'] = DriverMinExperience_2
+   512    240.6 MiB      0.0 MiB           1                   hf[0, 'DriverLicenseAge'] = DriverLicenseAge
+   513    240.6 MiB      0.0 MiB           1                   hf[0, 'kbm_exp10plus'] = kbm_exp10plus
+   514    240.6 MiB      0.0 MiB           1                   hf[0, 'kbm_exp10minus'] = kbm_exp10minus
+   515    240.6 MiB      0.0 MiB           1                   hf[0, 'kbm_exp10plus_2'] = kbm_exp10plus_2
+   516    240.6 MiB      0.0 MiB           1                   hf[0, 'kbm_exp10minus_2'] = kbm_exp10minus_2
+   517    240.6 MiB      0.0 MiB           1                   hf[0, 'kvc_kbm'] = kvc_kbm
+   518                                                         # Vehicle
+   519    240.6 MiB      0.0 MiB           1                   hf[0, 'veh_moto'] = veh_moto
+   520    240.6 MiB      0.0 MiB           1                   hf[0, 'veh_car'] = veh_car
+   521    240.6 MiB      0.0 MiB           1                   hf[0, 'veh_truck'] = veh_truck
+   522    240.6 MiB      0.0 MiB           1                   hf[0, 'VehicleAge'] = VehicleAge
+   523    240.6 MiB      0.0 MiB           1                   hf[0, 'VehicleAge_2'] = VehicleAge_2
+   524    240.6 MiB      0.0 MiB           1                   hf[0, 'EnginePower'] = EnginePower
+   525    240.6 MiB      0.0 MiB           1                   hf[0, 'SeatsNumberTo16'] = SeatsNumberTo16
+   526    240.6 MiB      0.0 MiB           1                   hf[0, 'MaxWeightTo16'] = MaxWeightTo16
+   527                                                         # Policy
+   528    240.6 MiB      0.0 MiB           1                   hf[0, 'IsProlongation'] = IsProlongation
+   529    240.6 MiB      0.0 MiB           1                   hf[0, 'DriverUnlimit'] = DriverUnlimit
+   530    240.6 MiB      0.0 MiB           1                   hf[0, 'OwnerKLADR_Num'] = OwnerKLADR_Num
+   531    240.6 MiB      0.0 MiB           1                   hf[0, 'freq_geo'] = freq_geo
+   532    240.6 MiB      0.0 MiB           1                   hf[0, 'freq_0_100_geo'] = freq_0_100_geo
+   533    240.6 MiB      0.0 MiB           1                   hf[0, 'freq_100_geo'] = freq_100_geo
+   534    240.6 MiB      0.0 MiB           1                   hf[0, 'population_1000'] = population_1000
+   535    240.6 MiB      0.0 MiB           1                   hf[0, 'population_500'] = population_500
+   536    240.6 MiB      0.0 MiB           1                   hf[0, 'population_250'] = population_250
+   537    240.6 MiB      0.0 MiB           1                   hf[0, 'population_60'] = population_60
+   538    240.6 MiB      0.0 MiB           1                   hf[0, 'population_50_log'] = population_50_log
+   539    240.6 MiB      0.0 MiB           1                   hf[0, 'city_population_max_50'] = city_population_max_50
+   540    240.6 MiB      0.0 MiB           1                   hf[0, 'city_population_max_50_log'] = city_population_max_50_log
+   541    240.6 MiB      0.0 MiB           1                   hf[0, 'city_dist_max_50'] = city_dist_max_50
+   542    240.6 MiB      0.0 MiB           1                   hf[0, 'city_dist_max_50_log'] = city_dist_max_50_log
+   543    240.6 MiB      0.0 MiB           1                   hf[0, 'center_population'] = center_population
+   544    240.6 MiB      0.0 MiB           1                   hf[0, 'center_population_log'] = center_population_log
+   545    240.6 MiB      0.0 MiB           1                   hf[0, 'center_dist'] = center_dist
+   546    240.6 MiB      0.0 MiB           1                   hf[0, 'center_dist_log'] = center_dist_log
+   547    240.6 MiB      0.0 MiB           1                   hf[0, 'region_density'] = region_density
+   548    240.6 MiB      0.0 MiB           1                   hf[0, 'region_density_log'] = region_density_log
+   549
+   550    240.6 MiB      0.0 MiB           2                   df = pd.DataFrame.from_records([{
+   551                                                             # Client
+   552    240.6 MiB      0.0 MiB           1                       'InsurerOwner': InsurerOwner,
+   553    240.6 MiB      0.0 MiB           1                       'GenderM': GenderM,
+   554    240.6 MiB      0.0 MiB           1                       'GenderW': GenderW,
+   555    240.6 MiB      0.0 MiB           1                       'IsGoodName': IsGoodName,
+   556    240.6 MiB      0.0 MiB           1                       'DriverMinAge_M': DriverMinAge_M,
+   557    240.6 MiB      0.0 MiB           1                       'DriverMinAge_M_2': DriverMinAge_M_2,
+   558    240.6 MiB      0.0 MiB           1                       'DriverMinAge_W': DriverMinAge_W,
+   559    240.6 MiB      0.0 MiB           1                       'DriverMinAge_W_2': DriverMinAge_W_2,
+   560    240.6 MiB      0.0 MiB           1                       'DriverMinExperience': DriverMinExperience,
+   561    240.6 MiB      0.0 MiB           1                       'DriverMinExperience_2': DriverMinExperience_2,
+   562    240.6 MiB      0.0 MiB           1                       'DriverLicenseAge': DriverLicenseAge,
+   563    240.6 MiB      0.0 MiB           1                       'kbm_exp10plus': kbm_exp10plus,
+   564    240.6 MiB      0.0 MiB           1                       'kbm_exp10minus': kbm_exp10minus,
+   565    240.6 MiB      0.0 MiB           1                       'kbm_exp10plus_2': kbm_exp10plus_2,
+   566    240.6 MiB      0.0 MiB           1                       'kbm_exp10minus_2': kbm_exp10minus_2,
+   567    240.6 MiB      0.0 MiB           1                       'kvc_kbm': kvc_kbm,
+   568                                                             # Vehicle
+   569    240.6 MiB      0.0 MiB           1                       'veh_moto': veh_moto,
+   570    240.6 MiB      0.0 MiB           1                       'veh_car': veh_car,
+   571    240.6 MiB      0.0 MiB           1                       'veh_truck': veh_truck,
+   572    240.6 MiB      0.0 MiB           1                       'VehicleAge': VehicleAge,
+   573    240.6 MiB      0.0 MiB           1                       'VehicleAge_2': VehicleAge_2,
+   574    240.6 MiB      0.0 MiB           1                       'EnginePower': EnginePower,
+   575    240.6 MiB      0.0 MiB           1                       'SeatsNumberTo16': SeatsNumberTo16,
+   576    240.6 MiB      0.0 MiB           1                       'MaxWeightTo16': MaxWeightTo16,
+   577                                                             # Policy
+   578    240.6 MiB      0.0 MiB           1                       'IsProlongation': IsProlongation,
+   579    240.6 MiB      0.0 MiB           1                       'DriverUnlimit': DriverUnlimit,
+   580    240.6 MiB      0.0 MiB           1                       'OwnerKLADR_Num': OwnerKLADR_Num,
+   581    240.6 MiB      0.0 MiB           1                       'freq_geo': freq_geo,
+   582    240.6 MiB      0.0 MiB           1                       'freq_0_100_geo': freq_0_100_geo,
+   583    240.6 MiB      0.0 MiB           1                       'freq_100_geo': freq_100_geo,
+   584    240.6 MiB      0.0 MiB           1                       'population_1000': population_1000,
+   585    240.6 MiB      0.0 MiB           1                       'population_500': population_500,
+   586    240.6 MiB      0.0 MiB           1                       'population_250': population_250,
+   587    240.6 MiB      0.0 MiB           1                       'population_60': population_60,
+   588    240.6 MiB      0.0 MiB           1                       'population_50_log': population_50_log,
+   589    240.6 MiB      0.0 MiB           1                       'city_population_max_50': city_population_max_50,
+   590    240.6 MiB      0.0 MiB           1                       'city_population_max_50_log': city_population_max_50_log,
+   591    240.6 MiB      0.0 MiB           1                       'city_dist_max_50': city_dist_max_50,
+   592    240.6 MiB      0.0 MiB           1                       'city_dist_max_50_log': city_dist_max_50_log,
+   593    240.6 MiB      0.0 MiB           1                       'center_population': center_population,
+   594    240.6 MiB      0.0 MiB           1                       'center_population_log': center_population_log,
+   595    240.6 MiB      0.0 MiB           1                       'center_dist': center_dist,
+   596    240.6 MiB      0.0 MiB           1                       'center_dist_log': center_dist_log,
+   597    240.6 MiB      0.0 MiB           1                       'region_density': region_density,
+   598    240.6 MiB      0.0 MiB           1                       'region_density_log': region_density_log,
+   599                                                         }])
+   600
+   601    240.9 MiB      0.3 MiB           1                   predict_poisson_h2o = get_model_value(hf, model_poisson_h2o)
+   602    240.9 MiB      0.0 MiB           1                   json_.update({'model_ver_poisson_h2o': Config.model_poisson_h2o_name})
+   603    240.9 MiB      0.0 MiB           1                   json_.update({'predict_poisson_h2o': str(predict_poisson_h2o)})
+   604    240.9 MiB      0.0 MiB           1                   print(f"predict_poisson_h2o: {predict_poisson_h2o}")
+   605
+   606    241.3 MiB      0.4 MiB           1                   predict_poisson_xgb = get_model_value(df, model_poisson_xgb)
+   607    241.3 MiB      0.0 MiB           1                   json_.update({'model_ver_poisson_xgb': Config.model_poisson_xgb_name})
+   608    241.3 MiB      0.0 MiB           1                   json_.update({'predict_poisson_xgb': str(predict_poisson_xgb)})
+   609    241.3 MiB      0.0 MiB           1                   print(f"predict_poisson_xgb: {predict_poisson_xgb}")
+   610
+   611                                                         # Получаем средний убыток по портфелю в разрезе регионов, если региона нет в списке - тогда 105 000
+   612    241.3 MiB      0.0 MiB           1                   df_ML = df_Mean_Loss[df_Mean_Loss.Region == OwnerKLADRCode_2]
+   613    241.3 MiB      0.0 MiB           1                   predict_gamma = int(df_ML['MeanLoss'].values[0]) if len(df_ML) > 0 else Constants.mean_loss
+   614    241.3 MiB      0.0 MiB           1                   json_.update({'model_ver_gamma': 'region_mean_loss'})
+   615    241.3 MiB      0.0 MiB           1                   json_.update({'predict_gamma': predict_gamma})
+   616    241.3 MiB      0.0 MiB           1                   print(f"predict_gamma: {predict_gamma}")
+   617
+   618    241.3 MiB      0.0 MiB           1                   MeanLoss_h2o = (predict_poisson_h2o * predict_gamma) / Premium
+   619    241.3 MiB      0.0 MiB           1                   MeanLoss_h2o = int(MeanLoss_h2o * 100)
+   620    241.3 MiB      0.0 MiB           1                   json_.update({'MeanLoss_h2o': MeanLoss_h2o})
+   621    241.3 MiB      0.0 MiB           1                   print(f"MeanLoss_h2o: {MeanLoss_h2o}")
+   622
+   623    241.3 MiB      0.0 MiB           1                   MeanLoss_xgb = (predict_poisson_xgb * predict_gamma) / Premium
+   624    241.3 MiB      0.0 MiB           1                   MeanLoss_xgb = int(MeanLoss_xgb * 100)
+   625    241.3 MiB      0.0 MiB           1                   json_.update({'MeanLoss_xgb': MeanLoss_xgb})
+   626    241.3 MiB      0.0 MiB           1                   print(f"MeanLoss_xgb: {MeanLoss_xgb}")
+   627
+   628    241.3 MiB      0.0 MiB           1                   now_date_end_predict = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S.%f")
+   629    241.3 MiB      0.0 MiB           1                   json_.update({'now_date_end_predict': now_date_end_predict})
+   630
+   631    241.3 MiB      0.0 MiB           1                   print(f"----- finish predict {str(now_date_end_predict)} -----")
+   632
+   633
+   634                                                     except Exception as e:
+   635
+   636                                                         ban = True
+   637                                                         print(e)
+   638                                                         comment = 'Прогноз невозможен'
+   639
+   640                                                 # ***** Определяем сегмент *****
+   641
+   642    241.3 MiB      0.0 MiB           1           if LossRange is not None and MaxLossRange is not None:
+   643    241.3 MiB      0.0 MiB           1               json_.update({'LossRange': LossRange})
+   644    241.3 MiB      0.0 MiB           1               json_.update({'MaxLossRange': MaxLossRange})
+   645                                                 else:
+   646                                                     ban = True
+   647                                                     comment = 'Планка не определена'
+   648
+   649    241.3 MiB      0.0 MiB           1           if ban:
+   650                                                     PredictSegment = "Запретительный"
+   651    241.3 MiB      0.0 MiB           1           elif MeanLoss_h2o > MaxLossRange:
+   652                                                     PredictSegment = "Запретительный"
+   653                                                     comment = 'OK'
+   654    241.3 MiB      0.0 MiB           1           elif MeanLoss_h2o > LossRange:
+   655                                                     PredictSegment = "Рисковый"
+   656                                                     comment = 'OK'
+   657                                                 else:
+   658    241.3 MiB      0.0 MiB           1               PredictSegment = "Целевой-2"
+   659    241.3 MiB      0.0 MiB           1               comment = 'OK'
+   660
+   661    241.3 MiB      0.0 MiB           1           print(f"PredictSegment: {PredictSegment}")
+   662    241.3 MiB      0.0 MiB           1           json_.update({"PredictSegment": PredictSegment})
+   663    241.3 MiB      0.0 MiB           1           now_date_end = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S.%f")
+   664    241.3 MiB      0.0 MiB           1           print(f"----- finish {str(now_date_end)} -----")
+   665    241.3 MiB      0.0 MiB           1           json_.update({'now_date_end': now_date_end})
+   666    241.3 MiB      0.0 MiB           1           save_quote_json(json_, now_date)
+   667
+   668    241.3 MiB      0.0 MiB           1           try:
+   669    241.3 MiB      0.0 MiB           2               json_segment = {'PredictSegment': PredictSegment, 'predict_poisson_h2o': str(predict_poisson_h2o),
+   670    241.3 MiB      0.0 MiB           1                               'predict_poisson_xgb': str(predict_poisson_xgb), 'comment': comment}
+   671                                                 except Exception:
+   672                                                     json_segment = {'PredictSegment': PredictSegment, 'Score': 0, 'comment': comment}
+   673
+   674    241.3 MiB      0.0 MiB           1           return json.dumps(json_segment)
+   675
+   676
+   677                                             except Exception as err:
+   678
+   679                                                 print('ERROR')
+   680                                                 print(traceback.format_exc())
+   681                                                 json_.update({'ERROR_Traceback': str(err)})
+   682                                                 save_quote_json(json_, now_date)
+   683                                                 json_segment = {'PredictSegment': 'Запретительный', 'Score': 0, 'comment': 'ERROR'}
+   684                                                 return json.dumps(json_segment)
